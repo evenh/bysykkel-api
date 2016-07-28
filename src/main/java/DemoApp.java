@@ -1,9 +1,12 @@
+import com.google.common.io.Files;
+
 import net.evenh.bysykkel.Bysykkel;
 import net.evenh.bysykkel.domain.Station;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.List;
 
 import rx.Observable;
@@ -17,7 +20,11 @@ public class DemoApp {
   private static final Logger log = LoggerFactory.getLogger(DemoApp.class);
 
   public static void main(String... args) {
-    Bysykkel api = Bysykkel.getInstance();
+    final File tempDir = Files.createTempDir();
+
+    log.info("tempdir: {}", tempDir);
+
+    Bysykkel api = Bysykkel.getInstance().enableCache(tempDir, 10);
 
     getOne(157L, api);
   }
