@@ -73,8 +73,8 @@ public final class Bysykkel {
       throw new InitializationException("Invalid cacheDirectory specified");
     }
 
-    if (sizeInMegabytes == null) {
-      throw new InitializationException("Cache size cannot be null");
+    if (sizeInMegabytes == null || sizeInMegabytes == 0) {
+      throw new InitializationException("Cache size cannot be null or zero");
     }
 
     log.info("Cache specified, recreating network client");
@@ -104,13 +104,8 @@ public final class Bysykkel {
   /**
    * Provides an initialized {@link DefaultStationService}.
    */
-  public StationService stations() {
-    try {
-      return new DefaultStationService(client);
-    } catch (InitializationException ie) {
-      log.error("Caught exception while returning station service", ie);
-      return null;
-    }
+  public StationService stations() throws InitializationException {
+    return new DefaultStationService(client);
   }
 
   @Override
