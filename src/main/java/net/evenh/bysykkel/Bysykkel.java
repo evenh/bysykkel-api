@@ -18,13 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * The main entry point for using the Bysykkel API library.
  */
 public final class Bysykkel {
-  private static final Logger log = LoggerFactory.getLogger(Bysykkel.class);
+  static final Logger log = LoggerFactory.getLogger(Bysykkel.class);
 
-  private static final Bysykkel instance = new Bysykkel();
-  private static final String API_HOST = "http://oslobysykkel.no";
+  static Bysykkel instance = new Bysykkel();
+  final String API_HOST = "http://oslobysykkel.no";
 
-  private Retrofit client;
-  private Cache configuredCache;
+  Retrofit client;
+  Cache configuredCache;
 
   /**
    * Gets or creates a new instance (if none exists) of the Bysykkel API. <p>Caching is disabled by
@@ -34,12 +34,12 @@ public final class Bysykkel {
     return instance;
   }
 
-  private Bysykkel() {
+  Bysykkel() {
     log.debug("Instantiating a new instance of the Bysykkel API");
     this.client = createRetrofitClient();
   }
 
-  private Retrofit createRetrofitClient() {
+  Retrofit createRetrofitClient() {
     log.debug("Creating Retrofit client");
 
     return new Retrofit.Builder()
@@ -49,7 +49,7 @@ public final class Bysykkel {
       .build();
   }
 
-  private OkHttpClient createHttpClient() {
+  OkHttpClient createHttpClient() {
     OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
     if (configuredCache != null) {
